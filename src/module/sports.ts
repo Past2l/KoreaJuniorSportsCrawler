@@ -95,7 +95,7 @@ export class Sports {
     Log.debug(
       `\u001B[34mSports.getMatchList\u001B[0m \u001B[32m${JSON.stringify(
         date,
-      )}\u001B[0m : Success!`,
+      )}\u001B[0m : ${result.length}`,
       true,
     );
     return result;
@@ -177,7 +177,7 @@ export class Sports {
     Log.debug(
       `\u001B[34mSports._getMatchDetailRT\u001B[0m \u001B[32m${JSON.stringify(
         match.query,
-      )}\u001B[0m : Success!`,
+      )}\u001B[0m : ${result.length}`,
       true,
     );
     return result;
@@ -246,7 +246,7 @@ export class Sports {
     Log.debug(
       `\u001B[34mSports._getMatchDetailR\u001B[0m \u001B[32m${JSON.stringify(
         match.query,
-      )}\u001B[0m : Success!`,
+      )}\u001B[0m : ${result.length}`,
       true,
     );
     return result;
@@ -286,7 +286,11 @@ export class Sports {
           ['I', 'G'].includes(match.query[2])
             ? {
                 ...match,
-                순위: 정보.includes('승(') ? '승' : '패',
+                순위: 정보.includes('승(')
+                  ? '승'
+                  : 정보.includes('패(')
+                  ? '패'
+                  : '',
                 시도: 정보.split('>')[1].split('<')[0],
                 참가팀명: '',
                 기록: 정보.split('(')[1].split(')')[0],
@@ -303,7 +307,11 @@ export class Sports {
               }
             : {
                 ...match,
-                순위: 정보.includes('승(') ? '승' : '패',
+                순위: 정보.includes('승(')
+                  ? '승'
+                  : 정보.includes('패(')
+                  ? '패'
+                  : '',
                 시도: 정보.split('>')[1].split('<')[0],
                 참가팀명: '',
                 기록: 정보.split('(')[1].split(')')[0],
@@ -330,7 +338,7 @@ export class Sports {
     Log.debug(
       `\u001B[34mSports._getMatchDetailT\u001B[0m \u001B[32m${JSON.stringify(
         match.query,
-      )}\u001B[0m : Success!`,
+      )}\u001B[0m : ${result.length}`,
       true,
     );
     return result;
