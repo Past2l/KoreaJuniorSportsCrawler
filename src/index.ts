@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import fs from 'fs';
 import dotenv from 'dotenv';
-import { Log, Sports } from './module';
+import { CSV, Log, Sports } from './module';
 import { SportsMatchDetail } from './interface';
 
 dotenv.config();
@@ -31,6 +31,12 @@ async function bootstrap() {
   fs.writeFileSync(
     './output/result.json',
     JSON.stringify(result.map((v) => ({ ...v, query: undefined }))),
+    'utf-8',
+  );
+  fs.writeFileSync(
+    './output/result.csv',
+    CSV.fromJSON(result.map((v) => ({ ...v, query: undefined }))),
+    'utf-8',
   );
 
   Log.info(
