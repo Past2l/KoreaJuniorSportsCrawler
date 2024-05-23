@@ -291,15 +291,17 @@ export class Sports {
                   : 정보.includes('패(')
                   ? '패'
                   : '',
-                시도: 정보.split('>')[1].split('<')[0],
+                시도: Sports.cleanText(정보.split('>')[1].split('<')[0]),
                 참가팀명: '',
-                기록: 정보.split('(')[1].split(')')[0],
+                기록: Sports.cleanText(정보.split('(')[1].split(')')[0]),
                 '신기록/비고': '',
                 선수명: Sports.cleanText(td.eq(0).text()),
                 번호: '',
-                소속: td.eq(1).text().split('[')[0],
+                소속: Sports.cleanText(td.eq(1).text().split('[')[0]),
                 학년: td.eq(1).text().includes('[')
-                  ? td.eq(1).text().split('[')[1].split(']')[0]
+                  ? Sports.cleanText(
+                      td.eq(1).text().split('[')[1].split(']')[0],
+                    )
                   : '',
                 출전: '',
                 포지션: Sports.cleanText(td.eq(2).text()),
@@ -312,15 +314,17 @@ export class Sports {
                   : 정보.includes('패(')
                   ? '패'
                   : '',
-                시도: 정보.split('>')[1].split('<')[0],
+                시도: Sports.cleanText(정보.split('>')[1].split('<')[0]),
                 참가팀명: '',
-                기록: 정보.split('(')[1].split(')')[0],
+                기록: Sports.cleanText(정보.split('(')[1].split(')')[0]),
                 '신기록/비고': '',
                 선수명: Sports.cleanText(td.eq(1).text()),
                 번호: '',
-                소속: td.eq(2).text().split('[')[0],
+                소속: Sports.cleanText(td.eq(2).text().split('[')[0]),
                 학년: td.eq(2).text().includes('[')
-                  ? td.eq(2).text().split('[')[1].split(']')[0]
+                  ? Sports.cleanText(
+                      td.eq(2).text().split('[')[1].split(']')[0],
+                    )
                   : '',
                 출전: td
                   .eq(0)
