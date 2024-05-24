@@ -170,7 +170,7 @@ export class Sports {
           학년: player.GRADE,
           출전: '',
           포지션: '',
-          진행일: match.일시,
+          진행일: match.일시.split(' ')[0],
         });
       }
     }
@@ -224,7 +224,7 @@ export class Sports {
               학년: Sports.cleanText(td.eq(4).text()),
               출전: '',
               포지션: '',
-              진행일: match.일시,
+              진행일: match.일시.split(' ')[0],
             }
           : {
               ...match,
@@ -239,7 +239,7 @@ export class Sports {
               학년: Sports.cleanText(td.eq(4).text()),
               출전: '',
               포지션: '',
-              진행일: match.일시,
+              진행일: match.일시.split(' ')[0],
             },
       );
     }
@@ -305,7 +305,7 @@ export class Sports {
                   : '',
                 출전: '',
                 포지션: Sports.cleanText(td.eq(2).text()),
-                진행일: match.일시,
+                진행일: match.일시.split(' ')[0],
               }
             : {
                 ...match,
@@ -334,7 +334,7 @@ export class Sports {
                   ? 'true'
                   : 'false',
                 포지션: Sports.cleanText(td.eq(3).text()),
-                진행일: match.일시,
+                진행일: match.일시.split(' ')[0],
               },
         );
       }
