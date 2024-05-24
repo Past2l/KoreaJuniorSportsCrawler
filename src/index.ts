@@ -28,14 +28,18 @@ async function bootstrap() {
   );
 
   if (!fs.existsSync('./output')) fs.mkdirSync('./output');
+  const ressultWithoutQuery = result.map((v) => {
+    const { query, ...value } = v;
+    return value;
+  });
   fs.writeFileSync(
     './output/result.json',
-    JSON.stringify(result.map((v) => ({ ...v, query: undefined }))),
+    JSON.stringify(ressultWithoutQuery),
     'utf-8',
   );
   fs.writeFileSync(
     './output/result.csv',
-    CSV.fromJSON(result.map((v) => ({ ...v, query: undefined }))),
+    CSV.fromJSON(ressultWithoutQuery),
     'utf-8',
   );
 
