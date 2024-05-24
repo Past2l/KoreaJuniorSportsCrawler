@@ -27,7 +27,7 @@ async function bootstrap() {
     true,
   );
 
-  if (!fs.existsSync('./output')) fs.mkdirSync('./output');
+  if (!fs.existsSync('./output')) fs.mkdirSync('./output', { recursive: true });
   const ressultWithoutQuery = result.map((v) => {
     const { query, ...value } = v;
     return value;
