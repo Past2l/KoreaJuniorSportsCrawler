@@ -1,51 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import fs from 'fs';
-import dotenv from 'dotenv';
-import { CSV, Log, Sports } from './module';
-import { SportsMatchDetail } from './interface';
-
-dotenv.config();
+import 'dotenv/config';
+import { Sports } from './module';
 
 async function bootstrap() {
-  Log.info(
-    '\u001B[34mKorea Junior Sports Data Crawler\u001B[0m Starting...',
-    true,
-  );
-
-  const dates = await Sports.getDates();
-  const result: SportsMatchDetail[] = [];
-  for (const date of dates) {
-    const matches = await Sports.getMatchList(date);
-    for (const match of matches) {
-      const detail = await Sports.getMatchDetail(match);
-      result.push(...detail);
-    }
-  }
-
-  Log.info(
-    '\u001B[34mKorea Junior Sports Data Crawler\u001B[0m Saving...',
-    true,
-  );
-
-  if (!fs.existsSync('./output')) fs.mkdirSync('./output', { recursive: true });
-  const ressultWithoutQuery = result.map((v) => {
-    const { query, ...value } = v;
-    return value;
-  });
-  fs.writeFileSync(
-    './output/result.json',
-    JSON.stringify(ressultWithoutQuery),
-    'utf-8',
-  );
-  fs.writeFileSync(
-    './output/result.csv',
-    CSV.fromJSON(ressultWithoutQuery),
-    'utf-8',
-  );
-
-  Log.info(
-    '\u001B[34mKorea Junior Sports Data Crawler\u001B[0m Complete!',
-    true,
+  const date = new Date();
+  await Sports.save(
+    process.env.OUTPUT || './output',
+    await Sports.init(),
+    date,
   );
 }
 bootstrap();

@@ -4,6 +4,7 @@ import axios from 'axios';
 import cheerio from 'cheerio';
 import { SportsMatchDetail, SportsMatchList } from '../interface';
 import { Log } from './log';
+import { CSV } from './csv';
 
 export class Sports {
   static async getDates() {
@@ -351,5 +352,49 @@ export class Sports {
       true,
     );
     return result;
+  }
+
+  static async init() {
+    Log.info(
+      '\u001B[34mKorea Junior Sports Data Crawler\u001B[0m Starting...',
+      true,
+    );
+    const dates = await Sports.getDates();
+    const result: SportsMatchDetail[] = [];
+    for (const date of dates) {
+      const matches = await Sports.getMatchList(date);
+      for (const match of matches) {
+        const detail = await Sports.getMatchDetail(match);
+        result.push(...detail);
+      }
+    }
+    Log.info(
+      '\u001B[34mKorea Junior Sports Data Crawler\u001B[0m Complete!',
+      true,
+    );
+    return result.map((v) => {
+      const { query, ...value } = v;
+      return value;
+    });
+  }
+
+  static async save(location: string, data: any, date: Date) {
+    const name = `${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}_${date
+      .getHours()
+      .toString()
+      .padStart(2, '0')}-${date.getMinutes().toString().padStart(2, '0')}`;
+    if (!fs.existsSync(location)) fs.mkdirSync(location, { recursive: true });
+    fs.writeFileSync(`${location}/${name}.json`, JSON.stringify(data), 'utf-8');
+    Log.info(
+      `\u001B[34mKorea Junior Sports Data Crawler\u001B[0m \u001B[32m'${location}/${name}.json'\u001B[0m Saved!`,
+      true,
+    );
+    fs.writeFileSync(`${location}/${name}.csv`, CSV.fromJSON(data), 'utf-8');
+    Log.info(
+      `\u001B[34mKorea Junior Sports Data Crawler\u001B[0m \u001B[32m'${location}/${name}.csv'\u001B[0m Saved!`,
+      true,
+    );
   }
 }
