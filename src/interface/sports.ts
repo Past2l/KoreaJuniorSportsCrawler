@@ -12,6 +12,7 @@ export interface SportsMatchList {
 
 export interface SportsMatchDetail extends SportsMatchList {
   순위: string;
+  승패: string;
   시도: string;
   참가팀명: string;
   기록: string;

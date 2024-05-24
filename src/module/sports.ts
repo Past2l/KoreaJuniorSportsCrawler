@@ -160,6 +160,7 @@ export class Sports {
         result.push({
           ...match,
           순위: Sports.cleanText(td.eq(0).text()),
+          승패: '',
           시도: Sports.cleanText(td.eq(1).text()),
           참가팀명: Sports.cleanText(td.eq(2).text()),
           기록: Sports.cleanText(td.eq(3).text()),
@@ -214,6 +215,7 @@ export class Sports {
           ? {
               ...match,
               순위: Sports.cleanText(td.eq(0).text()),
+              승패: '',
               시도: Sports.cleanText(td.eq(1).text()),
               참가팀명: '',
               기록: Sports.cleanText(td.eq(5).text()),
@@ -229,6 +231,7 @@ export class Sports {
           : {
               ...match,
               순위: '',
+              승패: '',
               시도: Sports.cleanText(td.eq(0).text()),
               참가팀명: '',
               기록: '',
@@ -286,7 +289,8 @@ export class Sports {
           ['I', 'G'].includes(match.query[2])
             ? {
                 ...match,
-                순위: 정보.includes('승(')
+                순위: '',
+                승패: 정보.includes('승(')
                   ? '승'
                   : 정보.includes('패(')
                   ? '패'
@@ -309,7 +313,8 @@ export class Sports {
               }
             : {
                 ...match,
-                순위: 정보.includes('승(')
+                순위: '',
+                승패: 정보.includes('승(')
                   ? '승'
                   : 정보.includes('패(')
                   ? '패'
