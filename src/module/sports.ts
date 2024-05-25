@@ -378,23 +378,54 @@ export class Sports {
     });
   }
 
-  static async save(location: string, data: any, date: Date) {
-    const name = `${date.getFullYear()}-${(date.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}_${date
-      .getHours()
-      .toString()
-      .padStart(2, '0')}-${date.getMinutes().toString().padStart(2, '0')}`;
-    if (!fs.existsSync(location)) fs.mkdirSync(location, { recursive: true });
-    fs.writeFileSync(`${location}/${name}.json`, JSON.stringify(data), 'utf-8');
-    Log.info(
-      `\u001B[34mKorea Junior Sports Data Crawler\u001B[0m \u001B[32m'${location}/${name}.json'\u001B[0m Saved!`,
-      true,
+  static async save(location: string, data: any[], date: Date) {
+    const date_format =
+      date.getFullYear() +
+      (date.getMonth() + 1).toString().padStart(2, '0') +
+      date.getDate().toString().padStart(2, '0');
+    const time_format =
+      date.getHours().toString().padStart(2, '0') +
+      date.getMinutes().toString().padStart(2, '0');
+    if (!fs.existsSync(`${location}/${date_format}/${time_format}`))
+      fs.mkdirSync(`${location}/${date_format}/${time_format}`, {
+        recursive: true,
+      });
+    const total: { name: string; value: any }[] = [
+      {
+        name: `${location}/${date_format}/${time_format}/total.json`,
+        value: JSON.stringify(data),
+      },
+      {
+        name: `${location}/${date_format}/${time_format}/total.csv`,
+        value: CSV.fromJSON(data),
+      },
+    ];
+    new Set(data.map((v) => v.진행일)).forEach((v) =>
+      total.push(
+        ...[
+          {
+            name: `${location}/${date_format}/${time_format}/${v.replace(
+              /\//g,
+              '',
+            )}.json`,
+            value: JSON.stringify(data.filter((d) => d.진행일 == v)),
+          },
+          {
+            name: `${location}/${date_format}/${time_format}/${v.replace(
+              /\//g,
+              '',
+            )}.csv`,
+            value: CSV.fromJSON(data.filter((d) => d.진행일 == v)),
+          },
+        ],
+      ),
     );
-    fs.writeFileSync(`${location}/${name}.csv`, CSV.fromJSON(data), 'utf-8');
-    Log.info(
-      `\u001B[34mKorea Junior Sports Data Crawler\u001B[0m \u001B[32m'${location}/${name}.csv'\u001B[0m Saved!`,
-      true,
-    );
+    total.forEach((v) => {
+      fs.writeFileSync(v.name, v.value, 'utf-8');
+      Log.info(
+        `\u001B[34mKorea Junior Sports Data Crawler\u001B[0m \u001B[32m'${v.name}'\u001B[0m Saved!`,
+        true,
+      );
+    });
   }
 }
