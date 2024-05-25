@@ -73,6 +73,9 @@ export class Sports {
             let 종별 = Sports.cleanText(td.eq(0).text());
             if (종별.substr(종별.length / 2).repeat(2) === 종별)
               종별 = 종별.substr(종별.length / 2);
+            let 세부종목 = Sports.cleanText(td.eq(1).text());
+            if (세부종목.substr(세부종목.length / 2).repeat(2) === 세부종목)
+              세부종목 = 세부종목.substr(세부종목.length / 2);
             return {
               query:
                 td
@@ -83,7 +86,7 @@ export class Sports {
                   .split(`','`) || [],
               종목: 종목s[i],
               종별,
-              세부종목: Sports.cleanText(td.eq(1).text()),
+              세부종목,
               경기구분: Sports.cleanText(td.eq(2).text()),
               상태: Sports.cleanText(td.eq(3).text()),
               일시: Sports.cleanText(td.eq(4).text()),
