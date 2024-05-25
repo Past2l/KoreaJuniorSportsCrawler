@@ -402,7 +402,10 @@ export class Sports {
       },
       {
         name: `${location}/${date_format}/${time_format}/total.csv`,
-        value: CSV.fromJSON(data),
+        value:
+          `\uFEFF"Created from https://github.com/Past2l/KoreaJuniorSportsCrawler, 생성일 : ${
+            date.toISOString().split('T')[0]
+          } ${date.toTimeString().split(' ')[0]}"\n` + CSV.fromJSON(data),
       },
       {
         name: `${location}/latest/total.json`,
@@ -410,7 +413,10 @@ export class Sports {
       },
       {
         name: `${location}/latest/total.csv`,
-        value: CSV.fromJSON(data),
+        value:
+          `\uFEFF"Created from https://github.com/Past2l/KoreaJuniorSportsCrawler, 생성일 : ${
+            date.toISOString().split('T')[0]
+          } ${date.toTimeString().split(' ')[0]}"\n` + CSV.fromJSON(data),
       },
     ];
     new Set(data.map((v) => v.진행일)).forEach((v) =>
@@ -428,15 +434,24 @@ export class Sports {
               /\//g,
               '',
             )}.csv`,
-            value: CSV.fromJSON(data.filter((d) => d.진행일 == v)),
+            value:
+              `\uFEFF"Created from https://github.com/Past2l/KoreaJuniorSportsCrawler, 생성일 : ${
+                date.toISOString().split('T')[0]
+              } ${date.toTimeString().split(' ')[0]}"\n` +
+              CSV.fromJSON(data.filter((d) => d.진행일 == v)),
           },
+
           {
             name: `${location}/latest/${v.replace(/\//g, '')}.json`,
             value: JSON.stringify(data.filter((d) => d.진행일 == v)),
           },
           {
             name: `${location}/latest/${v.replace(/\//g, '')}.csv`,
-            value: CSV.fromJSON(data.filter((d) => d.진행일 == v)),
+            value:
+              `\uFEFF"Created from https://github.com/Past2l/KoreaJuniorSportsCrawler, 생성일 : ${
+                date.toISOString().split('T')[0]
+              } ${date.toTimeString().split(' ')[0]}"\n` +
+              CSV.fromJSON(data.filter((d) => d.진행일 == v)),
           },
         ],
       ),
